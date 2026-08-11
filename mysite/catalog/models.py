@@ -55,5 +55,11 @@ class Review(models.Model):
     comment = models.TextField()
     created_date = models.DateField(auto_now_add=True)
 
+    # ИЗМЕНЕНО: один пользователь — максимум один отзыв на товар.
+    # Раньше get_avg_rating() мог исказиться, если один user_id
+    # оставлял много отзывов подряд.
+    class Meta:
+        unique_together = ('product', 'user_id')
+
     def __str__(self):
         return f'{self.user_id} - {self.product} - {self.stars}'
