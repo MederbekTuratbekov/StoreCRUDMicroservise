@@ -66,12 +66,15 @@ class SubCategoryDetailSerializer(serializers.ModelSerializer):
         fields = ['subcategory_name', 'products']
 
 
+# ИЗМЕНЕНО: fields = '__all__' -> явный список полей.
+# Раньше любое новое поле модели Review автоматически попадало бы в API
+# без осознанного решения — это риск случайно раскрыть служебные данные в будущем.
 class ReviewSerializer(serializers.ModelSerializer):
     user_id = serializers.IntegerField(read_only=True)
 
     class Meta:
         model = Review
-        fields = '__all__'
+        fields = ['id', 'product', 'user_id', 'stars', 'comment', 'created_date']
 
 
 class ProductDetailSerializer(serializers.ModelSerializer):
@@ -87,4 +90,3 @@ class ProductDetailSerializer(serializers.ModelSerializer):
             'video', 'description', 'article_number', 'product_type',
             'created_date', 'reviews'
         ]
-
